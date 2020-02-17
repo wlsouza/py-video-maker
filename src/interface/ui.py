@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import os
+from src.infrastructure.rss_service import RssService
 
 
 class Ui:
@@ -18,12 +19,22 @@ class Ui:
         response = input(f'Type a Wikipedia search term of \'G\' to fetch google trends terms: ').strip()
         if response:
             if response.upper() == 'G':
-                print(f'I\'m sorry, this function is not yet implemented.')
-                # To Do: implement the search google trends method.
+                self._search_data['search_term'] = self.ask_which_google_trend()
             else:
                 self._search_data['search_term'] = response
         else:
             self.ask_search_term()
+
+    def ask_which_google_trend(self):
+        terms = RssService.get_google_trends_terms()
+        terms_dict = {str(number+1): term for number, term in enumerate(terms)}
+        response = None
+        while response not in terms_dict.keys():
+            self.clear_screen()
+            for key, value in terms_dict.items():
+                print(f'[{key}] - {value}')
+            response = input(f'\nChoose one option {list(terms_dict.keys())}: ').strip()
+        return response
 
     def ask_search_prefix(self):
         self.clear_screen()
