@@ -1,9 +1,10 @@
-#!/usr/bin/python
+# !/usr/bin/python
 # -*- coding: UTF-8 -*-
 
 import os
 import sys
 from src.infrastructure.rss_service import RssService
+from src.application.orchestrator import Orchestrator
 
 
 class Ui:
@@ -14,6 +15,8 @@ class Ui:
     def run(self):
         self.ask_search_term()
         self.ask_search_prefix()
+        orchestrator = Orchestrator(**self._search_data)
+        orchestrator.run()
 
     def ask_search_term(self):
         response = None
@@ -22,20 +25,21 @@ class Ui:
             response = input(f'Type a Wikipedia search term or \'G\' to fetch google trends terms: ').strip()
             if response:
                 if response.upper() == 'G':
-                    self._search_data['search_term'] = self.ask_which_google_trend()
+                    response = self.ask_which_google_trend()
                 else:
                     self._search_data['search_term'] = response
 
     def ask_which_google_trend(self):
         terms = RssService.get_google_trends_terms()
         terms_dict = {str(number+1): term for number, term in enumerate(terms)}
+        terms_dict['0'] = 'CANCEL'  # adding an Cancel option
         response = None
         while response not in terms_dict.keys():
             self.clear_screen()
             for key, value in terms_dict.items():
                 print(f'[{key}] - {value}')
             response = input(f'\nChoose one option {list(terms_dict.keys())}: ').strip()
-        return terms_dict.get(response)
+        return terms_dict.get(response) if not response == '0' else None
 
     def ask_search_prefix(self):
         options = {'1': 'Who is', '2': 'What is', '3': 'The history of', '0': 'CANCEL'}
@@ -48,6 +52,8 @@ class Ui:
             response = input(f'\nChoose one option {list(options.keys())}: ').strip()
         if response == '0':
             sys.exit()
+        else:
+            self._search_data['search_prefix'] = options.get(response)
 
     @staticmethod
     def clear_screen():
