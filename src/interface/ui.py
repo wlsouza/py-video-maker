@@ -26,8 +26,7 @@ class Ui:
             if response:
                 if response.upper() == 'G':
                     response = self.ask_which_google_trend()
-                else:
-                    self._search_data['search_term'] = response
+                self._search_data['search_term'] = response
 
     def ask_which_google_trend(self):
         terms = RssService.get_google_trends_terms()

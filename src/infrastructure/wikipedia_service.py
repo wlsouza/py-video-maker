@@ -7,7 +7,10 @@ import wikipediaapi
 class WikipidiaService:
 
     @staticmethod
-    def get_page(self, title, prefix_lang='en'):
+    def get_page(title, prefix_lang='en'):
         wiki_wiki = wikipediaapi.Wikipedia(prefix_lang)
-        result_page = wiki_wiki.page(title)
-        return result_page
+        result_page = wiki_wiki.page(title=title)
+        if result_page.exists():
+            return result_page
+        else:
+            raise Exception('No page founded')
