@@ -1,8 +1,9 @@
 # !usr/bin/python
 # -*- coding: UTF-8 -*-
 
-import nltk
+
 import re
+import nltk
 from multi_rake import Rake
 from src.domain.sentence import Sentence
 from src.infrastructure.wikipedia_service import WikipidiaService
@@ -10,12 +11,12 @@ from src.infrastructure.wikipedia_service import WikipidiaService
 
 class TextRobot:
 
-    def __init__(self, search_term=None, search_prefix=None, prefix_lang='en'):
-        self.search_term = search_term
-        self.prefix_lang = prefix_lang
-        self._original_page = None
+    def __init__(self, video):
+        self.search_term = video.search_term
+        self.prefix_lang = video.language_prefix
+        self.sentences = video.sentences
+        self._original_wiki_page = None
         self._treated_summary = None
-        self.sentences = []
 
     def run(self):
         self._fetch_page_from_wikipedia()
@@ -25,12 +26,12 @@ class TextRobot:
 
     def _fetch_page_from_wikipedia(self):
         try:
-            self._original_page = WikipidiaService.get_page(title=self.search_term, prefix_lang=self.prefix_lang)
+            self._original_wiki_page = WikipidiaService.get_page(title=self.search_term, prefix_lang=self.prefix_lang)
         except Exception as error:
             raise Exception(f' Error while fetching text from wikipedia -> {error}')
 
     def _sanitize_text(self):
-        text = self._original_page.summary
+        text = self._original_wiki_page.summary
         self._treated_summary = re.sub(r'\((?:\([^()]*\)|[^()])*\)', '', text)
 
     def _split_contents_into_sentences(self):
