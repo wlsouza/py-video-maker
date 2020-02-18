@@ -3,6 +3,7 @@
 
 import os
 import sys
+from src.domain.video import Video
 from src.infrastructure.rss_service import RssService
 from src.application.orchestrator import Orchestrator
 
@@ -10,12 +11,12 @@ from src.application.orchestrator import Orchestrator
 class Ui:
 
     def __init__(self):
-        self._search_data = {}
+        self.video = Video()
 
     def run(self):
         self.ask_search_term()
         self.ask_search_prefix()
-        orchestrator = Orchestrator(**self._search_data)
+        orchestrator = Orchestrator(self.video)
         orchestrator.run()
 
     def ask_search_term(self):
@@ -26,7 +27,7 @@ class Ui:
             if response:
                 if response.upper() == 'G':
                     response = self.ask_which_google_trend()
-                self._search_data['search_term'] = response
+                self.video.search_term = response
 
     def ask_which_google_trend(self):
         terms = RssService.get_google_trends_terms()
@@ -44,7 +45,7 @@ class Ui:
         options = {'1': 'Who is', '2': 'What is', '3': 'The history of', '0': 'CANCEL'}
         response = None
         while response not in options:
-            print(f'The search term is: {self._search_data.get("search_term")}')
+            print(f'The search term is: {self.video.search_term}')
             print(f'Now, you must inform the prefix for your video:\n')
             for key, value in options.items():
                 print(f'[{key}] - {value}')
@@ -52,7 +53,7 @@ class Ui:
         if response == '0':
             sys.exit()
         else:
-            self._search_data['search_prefix'] = options.get(response)
+            self.video.search_prefix = options.get(response)
 
     @staticmethod
     def clear_screen():
