@@ -1,0 +1,16 @@
+certifi==2019.11.28
+cffi==1.14.0
+chardet==3.0.4
+cld2-cffi==0.1.4
+feedparser==5.2.1
+idna==2.8
+multi-rake==0.0.1
+nltk==3.4.5
+numpy==1.18.1
+pycparser==2.19
+pyrsistent==0.15.7
+regex==2020.1.8
+requests==2.22.0
+six==1.14.0
+urllib3==1.25.8
+Wikipedia-API==0.5.4
