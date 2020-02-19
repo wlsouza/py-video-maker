@@ -30,8 +30,11 @@ class GoogleService:
         if kwargs:
             params.update(kwargs)
         response = custom_search.list(**params).execute()
-        print(response)
         response_items = response.get('items')
         if response_items:
             url_list = [item.get('link') for item in response_items]
             return url_list
+
+if __name__ == '__main__':
+    teste = GoogleService.fetch_google_images('O homem aranha', 3)
+    print(teste)
