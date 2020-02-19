@@ -10,4 +10,8 @@ class Orchestrator:
         self.text_robot = TextRobot(video)
 
     def run(self):
+        """
+        It just executes the process calling the robots in sequence.
+        :return: None
+        """
         self.text_robot.run()
