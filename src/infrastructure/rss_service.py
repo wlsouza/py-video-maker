@@ -8,6 +8,10 @@ class RssService:
 
     @staticmethod
     def get_google_trends_terms():
+        """
+        Get the google trends in brazil
+        :return: List of google trends (just the titles)
+        """
         try:
             trends = feedparser.parse("https://trends.google.com/trends/trendingsearches/daily/rss?geo=BR")
             return [entry.get('title') for entry in trends.entries]

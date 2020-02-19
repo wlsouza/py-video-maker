@@ -14,22 +14,36 @@ class Ui:
         self.video = Video()
 
     def run(self):
-        self.ask_search_term()
-        self.ask_search_prefix()
+        """
+        It just executes the process calling the methods in sequence.
+        :return: None
+        """
+        self._ask_search_term()
+        self._ask_search_prefix()
         orchestrator = Orchestrator(self.video)
         orchestrator.run()
 
-    def ask_search_term(self):
+    def _ask_search_term(self):
+        """
+        Asks the user which search term they want to use to make the video.
+        It also allows you to press G to search for the terms of google trends.
+        After receiving the input, the method inserts the response in the video.search_term
+        :return: None
+        """
         response = None
         while not response:
             self.clear_screen()
             response = input(f'Type a Wikipedia search term or \'G\' to fetch google trends terms: ').strip()
-            if response:
+            if response :
                 if response.upper() == 'G':
-                    response = self.ask_which_google_trend()
+                    response = self._ask_which_google_trend()
                 self.video.search_term = response
 
-    def ask_which_google_trend(self):
+    def _ask_which_google_trend(self):
+        """
+        Get a list of google trends and ask the user which search term they want
+        :return: Return a title of google trend or None if the user choose CANCEL.
+        """
         terms = RssService.get_google_trends_terms()
         terms_dict = {str(number+1): term for number, term in enumerate(terms)}
         terms_dict['0'] = 'CANCEL'  # adding an Cancel option
@@ -41,7 +55,12 @@ class Ui:
             response = input(f'\nChoose one option {list(terms_dict.keys())}: ').strip()
         return terms_dict.get(response) if not response == '0' else None
 
-    def ask_search_prefix(self):
+    def _ask_search_prefix(self):
+        """
+        Asks the user which search prefix they want to use to make the video.
+        After receiving the input, the method inserts the response in the video.search_prefix
+        :return: None
+        """
         options = {'1': 'Who is', '2': 'What is', '3': 'The history of', '0': 'CANCEL'}
         response = None
         while response not in options:
@@ -57,6 +76,10 @@ class Ui:
 
     @staticmethod
     def clear_screen():
+        """
+        Clear the console screen.
+        :return: None
+        """
         if os.name == 'nt':
             os.system('cls')
         else:
