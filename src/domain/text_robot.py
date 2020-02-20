@@ -11,10 +11,9 @@ from src.infrastructure.wikipedia_service import WikipidiaService
 
 class TextRobot:
 
-    def __init__(self, video):
-        self._search_term = video.search_term
-        self._prefix_lang = video.language_prefix
-        self._sentences = video.sentences
+    def __init__(self, video, store_video=True):
+        self.video = video
+        self.store_video = store_video
         self._original_wiki_page = None
         self._treated_summary = None
 
@@ -35,7 +34,7 @@ class TextRobot:
         :return: None
         """
         try:
-            self._original_wiki_page = WikipidiaService.get_page(title=self._search_term, prefix_lang=self._prefix_lang)
+            self._original_wiki_page = WikipidiaService.get_page(title=self.video.search_term, prefix_lang=self.video.language_prefix)
         except Exception as error:
             raise Exception(f' Error while fetching text from wikipedia -> {error}')
 
@@ -58,15 +57,15 @@ class TextRobot:
         sentences = nltk.sent_tokenize(text)
         for sentence_text in sentences:
             sentence = Sentence(text=sentence_text)
-            self._sentences.append(sentence)
+            self.video.sentences.append(sentence)
 
     def _fetch_all_sentences_keywords(self):
         """
-        For each sentence object in self._sentences, the method gets the keywords and saves them in sentence.keywords
+        For each sentence object in self.video.sentences, the method gets the keywords and saves them in sentence.keywords
         :return: None
         """
         rake = Rake()
-        for sentence in self._sentences:
+        for sentence in self.video.sentences:
             keywords_result = rake.apply(sentence.text, text_for_stopwords=None)
             keywords = [keyword[0] for keyword in keywords_result]  # Getting just keywords, without accuracy
             sentence.keywords = keywords

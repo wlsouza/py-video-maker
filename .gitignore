@@ -133,3 +133,9 @@ dmypy.json
 
 #credentials
 src/credentials.py
+
+#storage
+src/storage/*
+!src/storage/.gitkeep
+
+
