@@ -15,3 +15,7 @@ class Video:
     @property
     def title(self):
         return f'{self.search_prefix} {self.search_term}'
+
+    @property
+    def path(self):
+        return f'../storage/{self.title} {self.language_prefix}'

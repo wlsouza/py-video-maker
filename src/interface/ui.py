@@ -4,7 +4,7 @@
 import os
 import sys
 from src.domain.video import Video
-from src.infrastructure.rss_service import RssService
+from src.infrastructure.google_service import GoogleService
 from src.application.orchestrator import Orchestrator
 
 
@@ -44,7 +44,7 @@ class Ui:
         Get a list of google trends and ask the user which search term they want
         :return: Return a title of google trend or None if the user choose CANCEL.
         """
-        terms = RssService.get_google_trends_terms()
+        terms = GoogleService.get_google_trends_terms()
         terms_dict = {str(number+1): term for number, term in enumerate(terms)}
         terms_dict['0'] = 'CANCEL'  # adding an Cancel option
         response = None

@@ -11,9 +11,8 @@ from src.infrastructure.wikipedia_service import WikipidiaService
 
 class TextRobot:
 
-    def __init__(self, video, store_video=True):
+    def __init__(self, video):
         self.video = video
-        self.store_video = store_video
         self._original_wiki_page = None
         self._treated_summary = None
 
