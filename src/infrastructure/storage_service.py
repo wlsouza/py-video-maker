@@ -42,16 +42,16 @@ class StorageService:
             return None
 
     @staticmethod
-    def download_image_from_url(url, name, path, automatic_extension=True):
+    def download_image_from_url(url, name, path, automatic_extension=False):
         try:
             if not os.path.exists(path):
                 os.makedirs(path)
             http = urllib3.PoolManager(headers={'user-agent': 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) ..'})
             response = http.urlopen('GET', url)
-            # if automatic_extension:
-            #     content_type = response.getheader('content-type')  # get content-type to find extension of file
-            #     extension = content_type.split('/')[1]
-            #     name = f'{name.split(".")[0]}.{extension}'
+            if automatic_extension:
+                content_type = response.getheader('content-type')  # get content-type to find extension of file
+                extension = content_type.split('/')[1]
+                name = f'{name.split(".")[0]}.{extension}'
             file_name = f'{path}/{name}'
             image_data = response.data
             with open(file_name, "wb") as file:
@@ -61,4 +61,4 @@ class StorageService:
 
 
 if __name__ == '__main__':
-    StorageService.download_image_from_url(url='https://www.pngfind.com/pngs/m/655-6556314_pica-pau-do-filme-png-download-pica-pau.png', name='picapau', path='teste', automatic_extension=False)
+    StorageService.download_image_from_url(url='https://www.pngfind.com/pngs/m/655-6556314_pica-pau-do-filme-png-download-pica-pau.png', name='picapau', path='teste')

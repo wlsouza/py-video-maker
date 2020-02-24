@@ -6,7 +6,7 @@ import re
 import nltk
 from multi_rake import Rake
 from src.domain.sentence import Sentence
-from src.infrastructure.wikipedia_service import WikipidiaService
+from src.infrastructure.wikipedia_service import WikipediaService
 
 
 class TextRobot:
@@ -33,7 +33,7 @@ class TextRobot:
         :return: None
         """
         try:
-            self._original_wiki_page = WikipidiaService.get_page(title=self.video.search_term, prefix_lang=self.video.language_prefix)
+            self._original_wiki_page = WikipediaService.get_page(title=self.video.search_term, prefix_lang=self.video.language_prefix)
         except Exception as error:
             raise Exception(f' Error while fetching text from wikipedia -> {error}')
 

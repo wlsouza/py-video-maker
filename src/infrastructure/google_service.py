@@ -28,7 +28,7 @@ class GoogleService:
         :param max_results: Maximum amount of results
         :param kwargs: Parameters passed to the google API,
         for more details see: https://developers.google.com/custom-search/v1/cse/list#parameters
-        :return: Returns a list of Image or Name URLs if the search does not provide results
+        :return: Returns a list of "images" if the search does not provide results
         """
         custom_search = build(serviceName='customsearch', version='v1', developerKey=credential.get('api_key')).cse()
         params = {
@@ -44,9 +44,7 @@ class GoogleService:
             params.update(kwargs)
         response = custom_search.list(**params).execute()
         response_items = response.get('items')
-        if response_items:
-            url_list = [item.get('link') for item in response_items]
-            return url_list
+        return response_items
 
 if __name__ == '__main__':
     teste = GoogleService.fetch_google_images('O homem aranha', 3)

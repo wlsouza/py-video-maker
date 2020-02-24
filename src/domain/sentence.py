@@ -4,10 +4,10 @@
 
 class Sentence:
 
-    def __init__(self, text, keywords=[], images=[]):
+    def __init__(self, text, keywords=[], image=None):
         self.text = text
         self.keywords = keywords
-        self.images = images
+        self.image = image
 
     def __str__(self):
         return self.text
