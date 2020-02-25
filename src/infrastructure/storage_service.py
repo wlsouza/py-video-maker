@@ -4,7 +4,7 @@
 import os
 import pickle
 import urllib3
-
+from PIL import Image
 
 class StorageService:
 
@@ -58,6 +58,23 @@ class StorageService:
                 file.write(image_data)
         except Exception as error:
             raise Exception(f'Error at StorageService() while downloading the image. -> {error}')
+
+    @staticmethod
+    def save_image(image, path, name, format=None):
+        """
+        Save a image on storage.
+        :param name: Image name.
+        :param image: Image to be saved.
+        :param path: Image path.
+        :return: None
+        """
+        try:
+            if not os.path.exists(path):
+                os.makedirs(path)
+            file_name = f'{path}/{name}'
+            image.save(file_name, format)
+        except Exception as error:
+            raise Exception(f'Error at StorageService() while dumping the video. -> {error}')
 
 
 if __name__ == '__main__':

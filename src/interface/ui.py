@@ -34,7 +34,7 @@ class Ui:
         while not response:
             self.clear_screen()
             response = input(f'Type a Wikipedia search term or \'G\' to fetch google trends terms: ').strip()
-            if response :
+            if response:
                 if response.upper() == 'G':
                     response = self._ask_which_google_trend()
                 self.video.search_term = response

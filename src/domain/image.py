@@ -9,6 +9,9 @@ class Image:
         self.path = path
         self.url = url
 
+    def full_path(self):
+        return
+
     def __str__(self):
         return self.name
 

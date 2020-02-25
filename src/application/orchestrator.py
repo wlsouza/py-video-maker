@@ -22,7 +22,7 @@ class Orchestrator:
         """
         try:
             for state, robot in self.robots.items():
-                self.video.state = 1
+                # self.video.state = 1
                 if self.video.state < state:
                     robot.run()
                     self.video.state = state
