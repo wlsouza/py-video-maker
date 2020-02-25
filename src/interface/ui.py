@@ -4,14 +4,17 @@
 import os
 import sys
 from src.domain.video import Video
-from src.infrastructure.rss_service import RssService
+from src.infrastructure.google_service import GoogleService
 from src.application.orchestrator import Orchestrator
+from src.config import general as config
 
 
 class Ui:
 
     def __init__(self):
-        self.video = Video()
+        resolution = config.get('video_resolution')
+        language_prefix = config.get('video_language_prefix')
+        self.video = Video(resolution=resolution, language_prefix=language_prefix)
 
     def run(self):
         """
@@ -34,7 +37,7 @@ class Ui:
         while not response:
             self.clear_screen()
             response = input(f'Type a Wikipedia search term or \'G\' to fetch google trends terms: ').strip()
-            if response :
+            if response:
                 if response.upper() == 'G':
                     response = self._ask_which_google_trend()
                 self.video.search_term = response
@@ -44,7 +47,7 @@ class Ui:
         Get a list of google trends and ask the user which search term they want
         :return: Return a title of google trend or None if the user choose CANCEL.
         """
-        terms = RssService.get_google_trends_terms()
+        terms = GoogleService.get_google_trends_terms()
         terms_dict = {str(number+1): term for number, term in enumerate(terms)}
         terms_dict['0'] = 'CANCEL'  # adding an Cancel option
         response = None

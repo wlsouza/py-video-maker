@@ -6,14 +6,14 @@ import re
 import nltk
 from multi_rake import Rake
 from src.domain.sentence import Sentence
-from src.infrastructure.wikipedia_service import WikipidiaService
+from src.infrastructure.wikipedia_service import WikipediaService
+from src.config import text_robot as config
 
 
 class TextRobot:
 
-    def __init__(self, video, store_video=True):
+    def __init__(self, video):
         self.video = video
-        self.store_video = store_video
         self._original_wiki_page = None
         self._treated_summary = None
 
@@ -34,7 +34,7 @@ class TextRobot:
         :return: None
         """
         try:
-            self._original_wiki_page = WikipidiaService.get_page(title=self.video.search_term, prefix_lang=self.video.language_prefix)
+            self._original_wiki_page = WikipediaService.get_page(title=self.video.search_term, prefix_lang=self.video.language_prefix)
         except Exception as error:
             raise Exception(f' Error while fetching text from wikipedia -> {error}')
 
@@ -55,9 +55,10 @@ class TextRobot:
         """
         text = self._treated_summary
         sentences = nltk.sent_tokenize(text)
-        for sentence_text in sentences:
-            sentence = Sentence(text=sentence_text)
-            self.video.sentences.append(sentence)
+        for sentence_index, sentence_text in enumerate(sentences):
+            if sentence_index < config.get('max_sentences', 0):
+                sentence = Sentence(text=sentence_text)
+                self.video.sentences.append(sentence)
 
     def _fetch_all_sentences_keywords(self):
         """

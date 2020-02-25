@@ -4,7 +4,7 @@
 import wikipediaapi
 
 
-class WikipidiaService:
+class WikipediaService:
 
     @staticmethod
     def get_page(title, prefix_lang='en'):
