@@ -7,6 +7,7 @@ import nltk
 from multi_rake import Rake
 from src.domain.sentence import Sentence
 from src.infrastructure.wikipedia_service import WikipediaService
+from src.config import text_robot as config
 
 
 class TextRobot:
@@ -54,9 +55,10 @@ class TextRobot:
         """
         text = self._treated_summary
         sentences = nltk.sent_tokenize(text)
-        for sentence_text in sentences:
-            sentence = Sentence(text=sentence_text)
-            self.video.sentences.append(sentence)
+        for sentence_index, sentence_text in enumerate(sentences):
+            if sentence_index < config.get('max_sentences', 0):
+                sentence = Sentence(text=sentence_text)
+                self.video.sentences.append(sentence)
 
     def _fetch_all_sentences_keywords(self):
         """

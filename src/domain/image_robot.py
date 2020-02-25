@@ -70,7 +70,7 @@ class ImageRobot:
             sentence.treated_image = Image(name=treated_image_name, path=treated_image_path, url=image.url)
 
             # Save treated image on storage
-            StorageService.save_image(image=treated_image, path=treated_image_path, name=treated_image_name, format=treated_image_extension)
+            StorageService.save_image(image=treated_image, path=treated_image_path, name=treated_image_name)
 
     @staticmethod
     def resize_with_aspect_ratio(image, target_width, target_height):

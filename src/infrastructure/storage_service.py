@@ -60,7 +60,7 @@ class StorageService:
             raise Exception(f'Error at StorageService() while downloading the image. -> {error}')
 
     @staticmethod
-    def save_image(image, path, name, format=None):
+    def save_image(image, path, name):
         """
         Save a image on storage.
         :param name: Image name.
@@ -72,7 +72,7 @@ class StorageService:
             if not os.path.exists(path):
                 os.makedirs(path)
             file_name = f'{path}/{name}'
-            image.save(file_name, format)
+            image.save(file_name)
         except Exception as error:
             raise Exception(f'Error at StorageService() while dumping the video. -> {error}')
 

@@ -6,12 +6,15 @@ import sys
 from src.domain.video import Video
 from src.infrastructure.google_service import GoogleService
 from src.application.orchestrator import Orchestrator
+from src.config import general as config
 
 
 class Ui:
 
     def __init__(self):
-        self.video = Video()
+        resolution = config.get('video_resolution')
+        language_prefix = config.get('video_language_prefix')
+        self.video = Video(resolution=resolution, language_prefix=language_prefix)
 
     def run(self):
         """
