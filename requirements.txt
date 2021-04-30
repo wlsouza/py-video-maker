@@ -19,7 +19,7 @@ pycparser==2.19
 pyrsistent==0.15.7
 regex==2020.2.20
 requests==2.23.0
-rsa==4.0
+rsa==4.7
 six==1.14.0
 uritemplate==3.0.1
 urllib3==1.25.8
