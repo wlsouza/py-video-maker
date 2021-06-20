@@ -3,6 +3,7 @@
 
 from src.domain.text_robot import TextRobot
 from src.domain.image_robot import ImageRobot
+from src.domain.video_robot import VideoRobot
 from src.infrastructure.storage_service import StorageService
 
 
@@ -12,7 +13,8 @@ class Orchestrator:
         self.video = self._check_stored_video(video=video)
         self.robots = {
             1: TextRobot(self.video),
-            2: ImageRobot(self.video)
+            2: ImageRobot(self.video),
+            3: VideoRobot(self.video)
         }
 
     def run(self):
@@ -22,7 +24,7 @@ class Orchestrator:
         """
         try:
             for state, robot in self.robots.items():
-                # self.video.state = 1
+                self.video.state = 2
                 if self.video.state < state:
                     robot.run()
                     self.video.state = state
